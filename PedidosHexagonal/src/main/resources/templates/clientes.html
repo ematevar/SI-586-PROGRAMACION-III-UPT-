@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+ <html lang="es" xmlns:th="http://www.thymeleaf.org">
+ <head><meta charset="UTF-8"><title>Registro de clientes</title><meta name="viewport" content="width=device-width, initial-scale=1"><style>body{font:16px Arial,sans-serif;max-width:720px;margin:45px auto;padding:24px;background:#f5f7fb;color:#182438}form,nav{background:white;padding:24px;border:1px solid #dae0ea;border-radius:8px}label{display:block;margin-top:16px}input{box-sizing:border-box;width:100%;padding:10px;margin-top:6px;border:1px solid #adb9cb;border-radius:4px}button{background:#203c70;color:white;border:0;padding:12px 22px;margin-top:18px;border-radius:4px;cursor:pointer}a{color:#254e92}p[th\:errors]{color:#b42318}h1,h2{color:#203c70}</style></head>
+ <body>
+     <h2>Registrar cliente</h2>
+     <p th:if="${mensaje}" th:text="${mensaje}"></p>
+     <form th:action="@{/clientes/guardar}" th:object="${cliente}" method="post">
+         <label>Nombre o razón social:</label>
+         <input type="text" th:field="*{nombre}" required maxlength="150">
+         <p th:errors="*{nombre}"></p>
+         <label>Documento:</label>
+         <input type="text" th:field="*{documento}" required maxlength="20">
+         <p th:errors="*{documento}"></p>
+         <label>Dirección:</label>
+         <input type="text" th:field="*{direccion}" maxlength="200">
+         <p th:errors="*{direccion}"></p>
+         <label>Correo:</label>
+         <input type="email" th:field="*{correo}" maxlength="150">
+         <p th:errors="*{correo}"></p>
+         <button type="submit">Guardar cliente</button>
+     </form>
+     <a th:href="@{/menu}">Volver al menú</a>
+ </body>
+ </html>

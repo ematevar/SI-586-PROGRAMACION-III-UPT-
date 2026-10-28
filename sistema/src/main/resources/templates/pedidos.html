@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Pedidos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/panel}">Minisistema de Pedidos</a>
+        <div class="d-flex text-white align-items-center">
+            <a th:href="@{/panel}" class="btn btn-outline-info btn-sm me-3">Categorías</a>
+            <span class="me-3">Usuario: <span sec:authentication="name"></span></span>
+            <form th:action="@{/logout}" method="post"><button type="submit" class="btn btn-outline-light btn-sm">Salir</button></form>
+        </div>
+    </div>
+</nav>
+<div class="container mt-4">
+    <h2>Consulta de Pedidos</h2><hr>
+    <!-- Filtro opcional por estado (método GET: solo consulta). -->
+    <form th:action="@{/pedidos}" method="get" class="row g-2 mb-3">
+        <div class="col-auto">
+            <select name="estado" class="form-select">
+                <option value="">Todos los estados</option>
+                <option th:each="e : ${estados}" th:value="${e}" th:text="${e}"
+                        th:selected="${e == estadoSeleccionado}"></option>
+            </select>
+        </div>
+        <div class="col-auto"><button type="submit" class="btn btn-primary">Filtrar</button></div>
+    </form>
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+        <tr><th>ID</th><th>Fecha</th><th>Cliente (ID)</th><th>Total</th><th>Estado</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="p : ${pedidos}">
+            <td th:text="${p.id}"></td>
+            <td th:text="${#temporals.format(p.fecha, 'dd/MM/yyyy HH:mm')}"></td>
+            <td th:text="${p.clienteId}"></td>
+            <td th:text="${'S/ ' + #numbers.formatDecimal(p.total, 1, 'COMMA', 2, 'POINT')}"></td>
+            <td th:text="${p.estado}"></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(pedidos)}"><td colspan="5" class="text-center">Sin registros.</td></tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
