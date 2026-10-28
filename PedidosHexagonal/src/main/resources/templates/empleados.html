@@ -1,6 +1,6 @@
 <!DOCTYPE html>
  <html lang="es" xmlns:th="http://www.thymeleaf.org">
- <head><meta charset="UTF-8"><title>Registro de empleados</title><meta name="viewport" content="width=device-width, initial-scale=1"><style>body{font:16px Arial,sans-serif;max-width:720px;margin:45px auto;padding:24px;background:#f5f7fb;color:#182438}form,nav{background:white;padding:24px;border:1px solid #dae0ea;border-radius:8px}label{display:block;margin-top:16px}input{box-sizing:border-box;width:100%;padding:10px;margin-top:6px;border:1px solid #adb9cb;border-radius:4px}button{background:#203c70;color:white;border:0;padding:12px 22px;margin-top:18px;border-radius:4px;cursor:pointer}a{color:#254e92}p[th\:errors]{color:#b42318}h1,h2{color:#203c70}</style></head>
+ <head><meta charset="UTF-8"><title>Registro de empleados</title><meta name="viewport" content="width=device-width, initial-scale=1"><style>body{font:16px Arial,sans-serif;max-width:1100px;margin:45px auto;padding:24px;background:#f5f7fb;color:#182438}form,nav{background:white;padding:24px;border:1px solid #dae0ea;border-radius:8px}label{display:block;margin-top:16px}input{box-sizing:border-box;width:100%;padding:10px;margin-top:6px;border:1px solid #adb9cb;border-radius:4px}button{background:#203c70;color:white;border:0;padding:12px 22px;margin-top:18px;border-radius:4px;cursor:pointer}a{color:#254e92}p[th\:errors]{color:#b42318}h1,h2{color:#203c70}</style></head>
  <body>
      <h2>Registrar empleado</h2>
      <p th:if="${mensaje}" th:text="${mensaje}"></p>
@@ -20,5 +20,13 @@
          <button type="submit">Guardar empleado</button>
      </form>
      <a th:href="@{/menu}">Volver al menú</a>
- </body>
+ <section aria-label="Empleados registrados">
+<h2>Empleados registrados</h2>
+<p>Total: <strong th:text="${#lists.size(registros)}">0</strong></p>
+<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;background:white"><thead><tr><th>ID</th><th>Nombres</th><th>Apellidos</th><th>Documento</th><th>Correo</th></tr></thead>
+<tbody><tr th:each="fila : ${registros}"><td th:text="${fila.id}"></td><td th:text="${fila.nombres}"></td><td th:text="${fila.apellidos}"></td><td th:text="${fila.documento}"></td><td th:text="${fila.correo}"></td></tr>
+<tr th:if="${#lists.isEmpty(registros)}"><td colspan="5">Todavía no hay registros. Completa el formulario para agregar el primero.</td></tr></tbody></table></div>
+</section>
+<style>th,td{text-align:left;padding:12px;border-bottom:1px solid #dae0ea;overflow-wrap:anywhere}th{background:#203c70;color:white}tbody tr:nth-child(even){background:#edf2f8}</style>
+</body>
  </html>

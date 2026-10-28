@@ -58,3 +58,13 @@ Para llevarlo a otra PC: llevar este proyecto, importar el SQL e iniciar MySQL. 
 7. Cerrar sesión y volver a una ruta privada: debe pedir autenticación.
 
 La guía original se incluye como Guia_Laboratorio04.pdf. Las credenciales y ddl-auto=update son los valores didácticos de la guía para práctica local.
+
+## Actualización: registrar y ver
+En el menú encontrarás «Registrar y ver clientes» y «Registrar y ver empleados».
+Cada pantalla incluye el formulario y una tabla con TODOS los registros, ordenados por ID descendente. Al guardar correctamente, se recarga el listado y aparece el nuevo registro. La redirección evita repetir el envío al actualizar el navegador. Los errores conservan los datos del formulario y el listado visible.
+
+Clientes: http://localhost:8080/clientes
+Empleados (ADMIN): http://localhost:8080/empleados
+Las rutas /clientes/nuevo y /empleados/nuevo siguen funcionando.
+
+Para actualizar: detener la aplicación anterior, extraer este ZIP en otra carpeta, abrir el nuevo proyecto en NetBeans y ejecutarlo. Si ya tienes la base Pedidos, NO vuelvas a importar el SQL: usa la misma conexión para conservar y ver tus registros existentes.

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 public class EmpleadoJpaAdapter implements EmpleadoPort {
 private final EmpleadoJpaRepository repository;
 public EmpleadoJpaAdapter(EmpleadoJpaRepository repository){this.repository=repository;}
+public java.util.List<Empleado> findAll(){return repository.findAll(org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.DESC,"id")).stream().map(e->{var u=new Empleado();u.setId(e.getId());u.setNombres(e.getNombres());u.setApellidos(e.getApellidos());u.setDocumento(e.getDocumento());u.setCorreo(e.getCorreo());return u;}).toList();}
 public boolean existsByDocumento(String documento){return repository.existsByDocumento(documento);}
 public void save(Empleado value){
 var entity=new com.empresa.pedidos.infrastructure.persistence.entity.Empleado();

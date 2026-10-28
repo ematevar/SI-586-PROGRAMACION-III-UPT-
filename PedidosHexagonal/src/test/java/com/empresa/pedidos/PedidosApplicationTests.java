@@ -28,10 +28,11 @@ mvc.perform(formLogin("/login").user("admin").password("incorrecta")).andExpect(
 @Test @WithMockUser(roles="ADMIN") void vistas() throws Exception {for(String url:new String[]{"/menu","/empleados/nuevo","/clientes/nuevo","/login"})mvc.perform(get(url)).andExpect(status().isOk());}
 @Test @WithMockUser(roles="ADMIN") void registroValidacionDuplicadoYCsrf() throws Exception {
 mvc.perform(post("/clientes/guardar").param("nombre","Cliente prueba").param("documento","TEST-01")).andExpect(status().isForbidden());
-mvc.perform(post("/clientes/guardar").with(csrf()).param("nombre","Cliente prueba").param("documento"," TEST-01 ").param("correo","cliente@example.com")).andExpect(status().isOk());
-assertTrue(clientes.existsByDocumento("TEST-01"));long total=clientes.count();
+mvc.perform(post("/clientes/guardar").with(csrf()).param("nombre","Cliente prueba").param("documento"," TEST-01 ").param("correo","cliente@example.com")).andExpect(redirectedUrl("/clientes"));
+assertTrue(clientes.existsByDocumento("TEST-01"));
+mvc.perform(get("/clientes")).andExpect(status().isOk()).andExpect(content().string(org.hamcrest.Matchers.containsString("TEST-01")));long total=clientes.count();
 mvc.perform(post("/clientes/guardar").with(csrf()).param("nombre","Duplicado").param("documento","TEST-01")).andExpect(model().attributeHasFieldErrors("cliente","documento"));assertEquals(total,clientes.count());
 mvc.perform(post("/clientes/guardar").with(csrf()).param("nombre","").param("documento","OTRO")).andExpect(model().attributeHasFieldErrors("cliente","nombre"));
-mvc.perform(post("/empleados/guardar").with(csrf()).param("nombres","Ana").param("apellidos","Torres").param("documento","EMP-TEST")).andExpect(status().isOk());assertTrue(empleados.existsByDocumento("EMP-TEST"));}
+mvc.perform(post("/empleados/guardar").with(csrf()).param("nombres","Ana").param("apellidos","Torres").param("documento","EMP-TEST")).andExpect(redirectedUrl("/empleados"));assertTrue(empleados.existsByDocumento("EMP-TEST"));mvc.perform(get("/empleados")).andExpect(status().isOk()).andExpect(content().string(org.hamcrest.Matchers.containsString("EMP-TEST")));}
 @Test @WithMockUser void logout() throws Exception {mvc.perform(post("/logout").with(csrf())).andExpect(redirectedUrl("/login?logout"));}
 }

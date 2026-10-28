@@ -8,9 +8,9 @@
      <h1>Sistema Pedidos</h1>
      <p>Bienvenido, <strong th:text="${#authentication.name}"></strong></p>
      <nav>
-          <a th:if="${#authentication.authorities.?[authority == 'ROLE_ADMIN'].size() > 0}" th:href="@{/empleados/nuevo}">Registrar empleado</a>
+          <a th:if="${#authentication.authorities.?[authority == 'ROLE_ADMIN'].size() > 0}" th:href="@{/empleados}">Registrar y ver empleados</a>
           <br><br>
-          <a th:href="@{/clientes/nuevo}">Registrar cliente</a>
+          <a th:href="@{/clientes}">Registrar y ver clientes</a>
      </nav>
      <br>
      <form th:action="@{/logout}" method="post">
