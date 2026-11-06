@@ -1,0 +1,149 @@
+{
+  "info": {
+    "name": "Caso 3 - Documentos seguros",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Postman conserva cookie JSESSIONID tras login. Actualice token y envioId desde la respuesta de generación. Use Send and Download para guardar PDF."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "token",
+      "value": "COPIAR_TOKEN_DEL_ENLACE"
+    },
+    {
+      "key": "envioId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "1 Login admin",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/caso3/login",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"Admin123!\"\n}"
+        }
+      }
+    },
+    {
+      "name": "2 Lista empleados",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/caso3/empleados"
+      }
+    },
+    {
+      "name": "3 Generar y enviar",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/caso3/envios",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"empleadoId\": 2,\n  \"tipo\": \"Constancia de Trabajo\",\n  \"plantilla\": \"Constancia Laboral\",\n  \"contenido\": \"\"\n}"
+        }
+      }
+    },
+    {
+      "name": "4 Control de estados",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/caso3/envios"
+      }
+    },
+    {
+      "name": "5 Código incorrecto (403)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/caso3/documentos/{{token}}/abrir",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"codigo\": \"EMP999\"\n}"
+        }
+      }
+    },
+    {
+      "name": "6 Abrir PDF (token del enlace generado)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/caso3/documentos/{{token}}/abrir",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"codigo\": \"EMP002\"\n}"
+        }
+      }
+    },
+    {
+      "name": "7 Vista previa admin",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/caso3/envios/{{envioId}}/pdf"
+      }
+    },
+    {
+      "name": "8 Reenviar",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/caso3/envios/{{envioId}}/reenviar",
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        }
+      }
+    },
+    {
+      "name": "9 Cerrar sesión",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/caso3/logout",
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        }
+      }
+    }
+  ]
+}
